@@ -60,7 +60,9 @@ export default function Detail() {
             <img
               src="/vite.svg"
               className="mr-3 h-6 sm:h-9"
-              alt="Flowbite Logo"
+              alt="Logo"
+              width="36"
+              height="36"
             />
           </a>
           <div className="flex items-center lg:order-2">
