@@ -1,9 +1,9 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import React, { useState, useEffect } from "react";
+import SEO from "@americanexpress/react-seo";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 
 const Home = () => {
   const [games, setGames] = useState([]);
@@ -15,12 +15,10 @@ const Home = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "https://api.xtr.my.id/api/list"
-        );
+        const response = await axios.get("https://api.xtr.my.id/api/list");
         setGames(response.data.games);
       } catch (error) {
-          return;
+        return;
       } finally {
         setLoading(false);
       }
@@ -43,16 +41,16 @@ const Home = () => {
         <ReactPaginate
           previousLabel={"<"}
           previousClassName={
-            "flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+            "flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-white"
           }
           nextLabel={">"}
           nextClassName={
-            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
           }
           breakLabel={"..."}
-          breakClassName="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-gray-400"
+          breakClassName="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"
           pageClassName={
-            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-gray-400"
+            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"
           }
           pageCount={Math.ceil(games.length / itemsPerPage)}
           marginPagesDisplayed={2}
@@ -62,10 +60,10 @@ const Home = () => {
             "flex list-none my-5 justify-center -space-x-px text-base h-10"
           }
           activeClassName={
-            "active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-400"
+            "active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-500"
           }
           disabledClassName={
-            "active bg-red-400 text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 cursor-default"
+            "active text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 bg-red-500"
           }
         />
       </nav>
@@ -78,6 +76,26 @@ const Home = () => {
           <title>ROM Collection</title>
         </Helmet>
       </HelmetProvider>
+      <SEO
+        title="ROM Collection"
+        description="Kumpulan ROM Game Dari XTR."
+        keywords={[
+          "XTR",
+          "Switch",
+          "PS Vita",
+          "Game PS Vita",
+          "Game Switch",
+          "NSP",
+          "XCI",
+          "ROM Skyline",
+          "ROM Yuzu",
+        ]}
+        siteUrl="https://xtr.my.id"
+        image={{
+          src: "http://xtr.my.id/vite.svg",
+        }}
+        locale="id-ID"
+      />
       <div className="col-span-3 lg:col-span-2 mb-3">
         {paginatedGames.map((game) => (
           <div
@@ -85,15 +103,15 @@ const Home = () => {
             className="bg-white w-full p-3 lg:max-w-full lg:flex mt-5 transform hover:-translate-y-1 hover:shadow-md duration-500 dark:bg-warmgray-900"
           >
             <div className="flex justify-center items-center">
-              <Link
-                to={`/detail/${game.id}`} //object-cover w-full rounded-t-lg h-36 md:h-auto md:w-32 md:rounded-none md:rounded-l-lg
-              >
+              <Link to={`/detail/${game.id}`}>
                 <img
-                  src={`https://assets.xtr.my.id/img/${game.id}.webp`}
+                  src={`https://assets.xtr.my.id/thumb/${game.id}.webp`}
                   loading="lazy"
                   alt={`Cover ${game.title}`}
                   id="thumb"
                   className="lg:w-auto lg:h-36 h-60"
+                  width="240"
+                  height="240"
                 />
               </Link>
             </div>

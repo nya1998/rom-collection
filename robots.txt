@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: https://xtr.my.id/sitemap.xml
+Disallow: /search/*

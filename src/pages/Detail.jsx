@@ -1,9 +1,10 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Store } from "react-notifications-component";
 import React, { useState, useEffect } from "react";
-import Err404 from "../component/Err404.jsx";
 import ReCAPTCHA from "react-google-recaptcha";
 import ReactiveButton from "reactive-button";
+import Err404 from "../component/Err404.jsx";
+import SEO from "@americanexpress/react-seo";
 import { useParams } from "react-router-dom";
 import { FcCalendar } from "react-icons/fc";
 import ReactMarkdown from "react-markdown";
@@ -109,6 +110,27 @@ export default function Detail() {
                 </title>
               </Helmet>
             </HelmetProvider>
+            <SEO
+              title={title ? `${title} | ROM Collection` : "ROM Collection"}
+              description={`ROM Dari Game ${title} Tersedia di XTR!`}
+              keywords={[
+                "XTR",
+                "Switch",
+                "PS Vita",
+                "Game PS Vita",
+                "Game Switch",
+                "NSP",
+                "XCI",
+                "ROM Skyline",
+                "ROM Yuzu",
+                `${title}`,
+              ]}
+              siteUrl={`https://xtr.my.id/detail/${id}`}
+              image={{
+                src: `https://assets.xtr.my.id/img/${id}.webp`,
+              }}
+              locale="id-ID"
+            />
             <div
               id="content"
               className="bg-white dark:bg-warmgray-900 p-5 my-4"

@@ -79,6 +79,7 @@ export default function Detail() {
                 type="submit"
                 className="text-white absolute right-2.5 bottom-2.5"
                 onClick={handleSearch}
+                aria-label="Search"
               >
                 <PiMagnifyingGlassBold
                   size={15}
@@ -93,6 +94,7 @@ export default function Detail() {
               className="ml-3"
               onColor="#6fcdfc"
               offColor="#252525"
+              aria-label="themeBtn"
               checkedIcon={<PiCloudSunDuotone size={27} className="ml-0.5" />}
               uncheckedIcon={<PiCloudMoonDuotone size={27} className="mr-0.5" />}
             />

@@ -65,10 +65,10 @@ export default function Search() {
             "flex list-none my-5 justify-center -space-x-px text-base h-10"
           }
           activeClassName={
-            "active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-400"
+            "active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-500"
           }
           disabledClassName={
-            "active bg-red-400 text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 cursor-default"
+            "active bg-red-500 text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 cursor-default"
           }
         />
       </nav>
