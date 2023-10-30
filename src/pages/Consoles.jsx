@@ -20,7 +20,7 @@ const Consoles = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://api.xtr.my.id/api/console/${consoles}`
+          `https://api.xtr.my.id/api/console/${consoles}`
         );
         setGames(response.data.games);
       } catch (error) {
