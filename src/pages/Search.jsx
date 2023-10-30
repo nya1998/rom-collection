@@ -5,12 +5,12 @@ import ReactPaginate from "react-paginate";
 import axios from "axios";
 
 export default function Search() {
-  const { query } = useParams();
-  const [games, setGames] = useState([]);
+  const [gridSize, setGridSize] = useState("grid grid-cols-3 gap-4 mb-2");
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isNull, setIsNull] = useState(false);
-  const [gridSize, setGridSize] = useState("grid grid-cols-3 gap-4 mb-2");
+  const [games, setGames] = useState([]);
+  const { query } = useParams();
   const itemsPerPage = 5;
 
   useEffect(() => {
