@@ -11,12 +11,13 @@ export default defineConfig({
     react(),
     obfuscatorPlugin({
       apply: "build",
-      include: ["src/*.jsx", "src/*.js"],
+      include: ["src/pages/*.jsx"],
       exclude: [/node_modules/],
+      debugger: true,
       options: {
         compact: true,
-        disableConsoleOutput: false,
-        debugProtection: false,
+        disableConsoleOutput: true,
+        debugProtection: true,
         simplify: true,
         selfDefending: true,
         controlFlowFlattening: true,
@@ -37,7 +38,7 @@ export default defineConfig({
         stringArrayWrappersType: 'function',
         stringArrayThreshold: 0.75,
         transformObjectKeys: true,
-        log: true,
+        log: false,
       }
     })
   ],
