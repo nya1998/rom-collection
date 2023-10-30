@@ -12,8 +12,8 @@ module.exports = {
       }
     },
     fontFamily: {
-      'body': ['Roboto', 'Helvetica'],
-      'sans': ['Roboto']
+      'body': 'roboto',
+      'sans': 'roboto'
     }
   }
 }
