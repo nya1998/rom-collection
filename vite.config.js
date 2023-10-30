@@ -12,7 +12,7 @@ export default defineConfig({
     obfuscatorPlugin({
       apply: "build",
       include: ["src/pages/*.jsx"],
-      exclude: [/node_modules/],
+      exclude: [/node_modules/, "src/pages/Search.jsx"],
       debugger: true,
       options: {
         compact: true,
