@@ -13,7 +13,6 @@ export default defineConfig({
       apply: "build",
       include: ["src/pages/*.jsx"],
       exclude: [/node_modules/],
-      debugger: true,
       options: {
         compact: true,
         disableConsoleOutput: true,
