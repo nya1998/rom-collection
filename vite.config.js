@@ -14,10 +14,8 @@ export default defineConfig({
       include: ["src/*.jsx", "src/*.js"],
       exclude: [/node_modules/],
       options: {
-        compact: true,
         disableConsoleOutput: true,
         debugProtection: true,
-        selfDefending: true,
         simplify: true,
         log: false,
       }
