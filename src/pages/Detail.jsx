@@ -8,7 +8,7 @@ import SEO from "@americanexpress/react-seo";
 import { useParams } from "react-router-dom";
 import { FcCalendar } from "react-icons/fc";
 import ReactMarkdown from "react-markdown";
-import { IoMdEye } from "react-icons/io";
+import { IoMdEye, IoMdDownload } from "react-icons/io";
 import TimeAgo from "react-timeago";
 import axios from "axios";
 
@@ -38,38 +38,39 @@ export default function Detail() {
     setRecaptchaToken(value);
   };
 
-  const createButton = (color, text, link) => (
-    <button
-      className={`focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-${color}-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-${color}-800`}
-      onClick={() => window.open(link, "_blank")}
-    >
-      <svg
-        className="mr-3 h-3 w-4 fill-current"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-      >
-        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path>
-      </svg>
-      <span>{text}</span>
-    </button>
+  const createButton = (color, text, link, margin) => (
+      <ReactiveButton
+        idleText={
+          <span className="flex items-center text-xs text-white">
+            <IoMdDownload className={`h-4 w-4 ${margin}`} />
+            {text}
+          </span>
+        }
+        animation={false}
+        buttonState={state}
+        onClick={() => window.open(link, "_blank")}
+        color={color}
+        size={"small"}
+        width={"115"}
+      />
   );
 
   const handleLinkList = (data) => {
     if (!data.update && !data.dlc) {
-      setLinkList(createButton("green", "BASE", data.base));
+      setLinkList(createButton("green", "BASE", data.base, "mr-4"));
     } else if (!data.dlc) {
       setLinkList(
         <>
-          {createButton("green", "BASE", data.base)}
-          {createButton("red", "UPDATE", data.update)}
+          {createButton("green", "BASE", data.base, "mr-4")}
+          {createButton("red", "UPDATE", data.update, "m-2")}
         </>
       );
     } else {
       setLinkList(
         <>
-          {createButton("green", "BASE", data.base)}
-          {createButton("red", "UPDATE", data.update)}
-          {createButton("yellow", "DLC", data.dlc)}
+          {createButton("green", "BASE", data.base, "mr-4")}
+          {createButton("red", "UPDATE", data.update, "mr-2")}
+          {createButton("blue", "DLC", data.dlc, "mr-5")}
         </>
       );
     }
@@ -95,9 +96,8 @@ export default function Detail() {
   const dlClicked = () => {
     setState("loading");
     setTimeout(async () => {
-      const linkListDiv = document.getElementById("linkList");
       const token = recaptchaToken;
-      if (linkListDiv && token) {
+      if (token) {
         const payload = { id: id, recaptcha: token };
         axios
           .post("https://api.xtr.my.id/api/chk/", payload)

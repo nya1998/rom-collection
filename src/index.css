@@ -48,3 +48,17 @@ h2{
 .game-size {
   @apply text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default;
 }
+
+.reactive-btn {
+  --reactive-button-red-color: rgb(220 38 38) !important;
+  --reactive-button-green-color: rgb(21 128 61) !important;
+  --reactive-button-yellow-color: rgb(234 179 8) !important;
+  --reactive-button-blue-color: rgb(37 99 235) !important;
+
+}
+
+.reactive-btn-wrapper {
+  --reactive-button-min-width: 125px !important;
+  --reactive-button-min-height: 100% !important;
+  @apply mx-1.5;
+}
