@@ -9,3 +9,42 @@ h2{
     line-height: 1.75rem;
     font-weight: 700;
 }
+
+.pagination {
+  @apply flex list-none my-5 justify-center -space-x-px text-base h-10;
+}
+
+.pagination li {
+  @apply flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white;
+}
+
+.pagination li a {
+  @apply flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white;
+}
+
+.game-details {
+  @apply bg-white w-full p-3 lg:max-w-full lg:flex mt-5 transform hover:-translate-y-1 hover:shadow-md duration-500 dark:bg-warmgray-900;
+}
+
+.game-image {
+  @apply flex justify-center items-center;
+}
+
+.game-image img {
+  @apply lg:w-auto lg:h-36 h-60;
+}
+
+.game-info {
+  @apply relative pl-4 p-2 justify-between leading-normal max-w-full w-full;
+}
+
+.game-title {
+  @apply text-gray-900 font-bold text-xl mb-2 dark:text-white;
+}
+
+.game-id,
+.game-console,
+.game-region,
+.game-size {
+  @apply text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default;
+}

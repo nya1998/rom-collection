@@ -5,29 +5,91 @@ import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+const Pagination = ({ games, itemsPerPage, handlePageClick }) => (
+  <nav aria-label="page navigation">
+    <ReactPaginate
+      previousLabel={"<"}
+      nextLabel={">"}
+      breakLabel={"..."}
+      pageCount={Math.ceil(games.length / itemsPerPage)}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={1}
+      onPageChange={handlePageClick}
+      previousClassName={
+        "flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+      }
+      nextClassName={
+        "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+      }
+      breakClassName={"flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"}
+      pageClassName={
+        "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"
+      }
+      containerClassName={"flex list-none my-5 justify-center -space-x-px text-base h-10"}
+      activeClassName={"active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-600"}
+      disabledClassName={"text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 bg-red-600"}
+    />
+  </nav>
+);
+
+const GameDetails = ({ game }) => (
+  <div
+    key={game.id}
+    className="game-details"
+  >
+    <div className="game-image">
+      <Link to={`/detail/${game.id}`}>
+        <img
+          src={`https://assets.xtr.my.id/thumb/${game.id}.webp`}
+          loading="lazy"
+          alt={`Cover ${game.title}`}
+          id="thumb"
+          className="lg:w-auto lg:h-36 h-60"
+          width="240"
+          height="240"
+        />
+      </Link>
+    </div>
+    <div className="game-info">
+      <div className="game-title">
+        <Link
+          className="mr-4 hover:underline md:mr-6 "
+          to={`/detail/${game.id}`}
+        >
+          {game.title}
+        </Link>
+      </div>
+      <p className="game-id">Game ID: {game.id}</p>
+      <p className="game-console">Console: {game.console}</p>
+      <p className="game-region">Region: {game.region}</p>
+      <p className="game-size">Size: {game.size}</p>
+    </div>
+  </div>
+);
+
 const Home = () => {
   const [games, setGames] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 5;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("https://api.xtr.my.id/api/list");
-        setGames(response.data.games);
-      } catch (error) {
-        return;
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("https://api.xtr.my.id/api/list");
+      setGames(response.data.games);
+    } catch (error) {
+      return;
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (games.length === 0) {
       fetchData();
     }
-  }, [games]);
+  }, []);
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -35,39 +97,6 @@ const Home = () => {
 
   const offset = currentPage * itemsPerPage;
   const paginatedGames = games.slice(offset, offset + itemsPerPage);
-  const renderPagination =
-    games.length > itemsPerPage ? (
-      <nav aria-label="page navigation">
-        <ReactPaginate
-          previousLabel={"<"}
-          previousClassName={
-            "flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-          }
-          nextLabel={">"}
-          nextClassName={
-            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-          }
-          breakLabel={"..."}
-          breakClassName="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"
-          pageClassName={
-            "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-gray-700 dark:border-gray-700 dark:text-white"
-          }
-          pageCount={Math.ceil(games.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName={
-            "flex list-none my-5 justify-center -space-x-px text-base h-10"
-          }
-          activeClassName={
-            "active dark:bg-gray-900 dark:border-gray-700 text-white bg-red-500"
-          }
-          disabledClassName={
-            "active text-white dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 bg-gray-500 bg-red-500"
-          }
-        />
-      </nav>
-    ) : null;
 
   return (
     <div className="grid grid-cols-3 gap-4 mb-2">
@@ -97,52 +126,12 @@ const Home = () => {
         locale="id-ID"
       />
       <div className="col-span-3 lg:col-span-2 mb-3">
-        {paginatedGames.map((game) => (
-          <div
-            key={game.id}
-            className="bg-white w-full p-3 lg:max-w-full lg:flex mt-5 transform hover:-translate-y-1 hover:shadow-md duration-500 dark:bg-warmgray-900"
-          >
-            <div className="flex justify-center items-center">
-              <Link to={`/detail/${game.id}`}>
-                <img
-                  src={`https://assets.xtr.my.id/thumb/${game.id}.webp`}
-                  loading="lazy"
-                  alt={`Cover ${game.title}`}
-                  id="thumb"
-                  className="lg:w-auto lg:h-36 h-60"
-                  width="240"
-                  height="240"
-                />
-              </Link>
-            </div>
-            <div className="relative pl-4 p-2 justify-between leading-normal max-w-full w-full">
-              <div className="text-gray-900 font-bold text-xl mb-2 dark:text-white">
-                <Link
-                  className="mr-4 hover:underline md:mr-6 "
-                  to={`/detail/${game.id}`}
-                >
-                  {game.title}
-                </Link>
-              </div>
-              <p className="text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default">
-                Game ID: {game.id}
-              </p>
-              <p className="text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default">
-                Console: {game.console}
-              </p>
-              <p className="text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default">
-                Region: {game.region}
-              </p>
-              <p className="text-gray-700 text-base pb-0.5 dark:text-gray-300 cursor-default">
-                Size: {game.size}
-              </p>
-            </div>
-          </div>
-        ))}
-        {renderPagination}
+        {paginatedGames.map((game) => <GameDetails game={game} />)}
+        {games.length > itemsPerPage && <Pagination games={games} itemsPerPage={itemsPerPage} handlePageClick={handlePageClick} />}
       </div>
     </div>
   );
 };
 
 export default Home;
+

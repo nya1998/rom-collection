@@ -16,7 +16,9 @@ export default function Detail() {
   const [title, setTitle] = useState("");
   const [posts, setPosts] = useState({});
   const [state, setState] = useState("idle");
+  const [flexStat, setFlexStat] = useState("");
   const [isNull, setIsNull] = useState(false);
+  const [linkList, setLinkList] = useState(null);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const { id } = useParams();
 
@@ -36,6 +38,60 @@ export default function Detail() {
     setRecaptchaToken(value);
   };
 
+  const createButton = (color, text, link) => (
+    <button
+      className={`focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-${color}-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-${color}-800`}
+      onClick={() => window.open(link, "_blank")}
+    >
+      <svg
+        className="mr-3 h-3 w-4 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+      >
+        <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path>
+      </svg>
+      <span>{text}</span>
+    </button>
+  );
+
+  const handleLinkList = (data) => {
+    if (!data.update && !data.dlc) {
+      setLinkList(createButton("green", "BASE", data.base));
+    } else if (!data.dlc) {
+      setLinkList(
+        <>
+          {createButton("green", "BASE", data.base)}
+          {createButton("red", "UPDATE", data.update)}
+        </>
+      );
+    } else {
+      setLinkList(
+        <>
+          {createButton("green", "BASE", data.base)}
+          {createButton("red", "UPDATE", data.update)}
+          {createButton("yellow", "DLC", data.dlc)}
+        </>
+      );
+    }
+    setFlexStat("flex");
+  };
+
+  const handleErr = (msg) => {
+    Store.addNotification({
+      title: "Error",
+      message: msg,
+      type: "danger",
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 3500,
+        onScreen: true,
+      },
+    });
+  };
+
   const dlClicked = () => {
     setState("loading");
     setTimeout(async () => {
@@ -46,51 +102,15 @@ export default function Detail() {
         axios
           .post("https://api.xtr.my.id/api/chk/", payload)
           .then((resp) => {
-            const data = resp.data;
-            if (!data.update && !data.dlc) {
-              linkListDiv.innerHTML = `<button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-green-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-green-800" onclick=" window.open('${data.base}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>BASE</span></button>`;
-              linkListDiv.classList.add("flex");
-              setState("success");
-            } else if (!data.dlc) {
-              linkListDiv.innerHTML = `<button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-green-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-green-800" onclick=" window.open('${data.base}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>BASE</span></button> <button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-red-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-red-800" onclick=" window.open('${data.update}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>UPDATE</span></button>`;
-              linkListDiv.classList.add("flex");
-              setState("success");
-            } else {
-              linkListDiv.innerHTML = `<button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-green-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-green-800" onclick=" window.open('${data.base}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>BASE</span></button> <button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-red-700 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-red-800" onclick=" window.open('${data.update}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>UPDATE</span></button><br><button class="focus:shadow-outline m-2 flex h-6 w-24 items-center rounded-lg bg-yellow-600 px-3 text-xs text-white no-underline transition-colors duration-150 hover:bg-yellow-800" onclick=" window.open('${data.dlc}','_blank')"><svg class="mr-3 h-3 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"></path></svg><span>DLC</span></button>`;
-              linkListDiv.classList.add("flex");
-              setState("success");
-            }
+            handleLinkList(resp.data);
           })
           .catch((error) => {
-            Store.addNotification({
-              title: "Error",
-              message:
-                "Captcha yang anda masukkan sepertinya tidak valid. Muat ulang halaman ini.",
-              type: "danger",
-              insert: "top",
-              container: "top-right",
-              animationIn: ["animate__animated", "animate__fadeIn"],
-              animationOut: ["animate__animated", "animate__fadeOut"],
-              dismiss: {
-                duration: 3500,
-                onScreen: true,
-              },
-            });
+            const msg = "Selesaikan Captcha untuk melihat link.";
+            handleErr(msg);
           });
       } else {
-        Store.addNotification({
-          title: "Error",
-          message: "Selesaikan Captcha untuk melihat link.",
-          type: "danger",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animate__animated", "animate__fadeIn"],
-          animationOut: ["animate__animated", "animate__fadeOut"],
-          dismiss: {
-            duration: 3500,
-            onScreen: true,
-          },
-        });
+        const msg = "Selesaikan Captcha untuk melihat link.";
+        handleErr(msg);
         setState("idle");
       }
     }, 2000);
@@ -151,28 +171,35 @@ export default function Detail() {
               </aside>
               <div className="prose md:prose-lg lg:prose-xl max-w-none dark:prose-invert mt-5">
                 <h2 className="mb-2">Link</h2>
-                <div id="linkList" className="">
-                  <ReCAPTCHA
-                    theme="dark"
-                    onChange={handleRecaptcha}
-                    sitekey="6Lczl-slAAAAANxvawAfza4bKMOCPbTeXgzCRcYW"
-                    className="mb-2"
-                  />
-                  <ReactiveButton
-                    idleText={
-                      <span className="flex items-center">
-                        <IoMdEye className="h-4 w-5 mr-1" />
-                        Show Link
-                      </span>
-                    }
-                    animation={false}
-                    buttonState={state}
-                    onClick={dlClicked}
-                    color={"green"}
-                    size="small"
-                    width={"115"}
-                  />
+                <div id="linkList" className={flexStat}>
+                  {linkList ? (
+                    linkList
+                  ) : (
+                    <>
+                      <ReCAPTCHA
+                        theme="dark"
+                        onChange={handleRecaptcha}
+                        sitekey="6Lczl-slAAAAANxvawAfza4bKMOCPbTeXgzCRcYW"
+                        className="mb-2"
+                      />
+                      <ReactiveButton
+                        idleText={
+                          <span className="flex items-center">
+                            <IoMdEye className="h-4 w-5 mr-1" />
+                            Show Link
+                          </span>
+                        }
+                        animation={false}
+                        buttonState={state}
+                        onClick={dlClicked}
+                        color={"green"}
+                        size="small"
+                        width={"115"}
+                      />
+                    </>
+                  )}
                 </div>
+
                 <ReactMarkdown>## Sinopsis</ReactMarkdown>
                 <ReactMarkdown>{posts.synop}</ReactMarkdown>
               </div>
