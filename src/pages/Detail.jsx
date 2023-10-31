@@ -42,11 +42,11 @@ export default function Detail() {
       <ReactiveButton
         idleText={
           <span className="flex items-center text-xs text-white">
-            <IoMdDownload className={`h-4 w-4 ${margin}`} />
+            <IoMdDownload className={`h-3.5 w-3.5 ${margin}`} />
             {text}
           </span>
         }
-        animation={false}
+        animation={true}
         buttonState={state}
         onClick={() => window.open(link, "_blank")}
         color={color}
@@ -57,24 +57,24 @@ export default function Detail() {
 
   const handleLinkList = (data) => {
     if (!data.update && !data.dlc) {
-      setLinkList(createButton("green", "BASE", data.base, "mr-4"));
+      setLinkList(createButton("green", "BASE", data.base, "mr-2"));
     } else if (!data.dlc) {
       setLinkList(
         <>
-          {createButton("green", "BASE", data.base, "mr-4")}
-          {createButton("red", "UPDATE", data.update, "m-2")}
+          {createButton("green", "BASE", data.base, "mr-2")}
+          {createButton("red", "UPDATE", data.update, "mr-2")}
         </>
       );
     } else {
       setLinkList(
         <>
-          {createButton("green", "BASE", data.base, "mr-4")}
-          {createButton("red", "UPDATE", data.update, "mr-2")}
-          {createButton("blue", "DLC", data.dlc, "mr-5")}
+          {createButton("red", "BASE", data.base, "mr-2")}
+          {createButton("green", "UPDATE", data.dlc, "mr-2")}
+          {createButton("blue", "DLC", data.dlc, "mr-2")}
         </>
       );
     }
-    setFlexStat("flex");
+    setFlexStat("flex items-center");
   };
 
   const handleErr = (msg) => {
@@ -189,7 +189,7 @@ export default function Detail() {
                             Show Link
                           </span>
                         }
-                        animation={false}
+                        animation={true}
                         buttonState={state}
                         onClick={dlClicked}
                         color={"green"}
