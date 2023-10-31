@@ -91,6 +91,8 @@ const Consoles = () => {
       setGames(response.data.games);
       if (consoles == "switch") {
         setConsole("Nintendo Switch");
+      } else if (consoles == "vita"){
+        setConsole("PS Vita");
       }
     } catch (error) {
       setIsNull(true);
