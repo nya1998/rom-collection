@@ -18,7 +18,7 @@ export default function Search() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8080/api/search/${query}`
+          `https://api.xtr.my.id/api/search/${query}`
         );
         setGames(response.data);
       } catch (error) {
