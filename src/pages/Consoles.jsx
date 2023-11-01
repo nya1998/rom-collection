@@ -41,7 +41,7 @@ const Pagination = ({ games, itemsPerPage, handlePageClick }) => (
   </nav>
 );
 
-const GameDetails = ({ game }) => (
+const GameDetails = ({ game, console }) => (
   <div key={game.id} className="game-details">
     <div className="game-image">
       <Link to={`/detail/${game.id}`}>
@@ -58,10 +58,7 @@ const GameDetails = ({ game }) => (
     </div>
     <div className="game-info">
       <div className="game-title">
-        <Link
-          className="mr-4 hover:underline md:mr-6 "
-          to={`/detail/${game.id}`}
-        >
+        <Link to={game.console === 'Nintendo Switch' ? `/detail/${game.id}` : `/info/${console}/${game.id}`}>
           {game.title}
         </Link>
       </div>
@@ -75,9 +72,10 @@ const GameDetails = ({ game }) => (
 
 const Consoles = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [console, setConsole] = useState("");
   const [loading, setLoading] = useState(true);
   const [isNull, setIsNull] = useState(false);
+  const [console, setConsole] = useState("");
+  const [pth, setpth] = useState("");
   const [games, setGames] = useState([]);
   const { consoles } = useParams();
   const itemsPerPage = 5;
@@ -143,7 +141,7 @@ const Consoles = () => {
           />
           <div className="col-span-3 lg:col-span-2 mb-3">
             {paginatedGames.map((game) => (
-              <GameDetails game={game} />
+              <GameDetails game={game} console={consoles} />
             ))}
             {games.length > itemsPerPage && (
               <Pagination
