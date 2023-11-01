@@ -98,7 +98,7 @@ export default function Detail() {
     setTimeout(async () => {
       const token = recaptchaToken;
       if (token) {
-        const payload = { id: id, recaptcha: token };
+        const payload = { id: id, recaptcha: token, console: "switch" };
         axios
           .post("https://api.xtr.my.id/api/chk/", payload)
           .then((resp) => {

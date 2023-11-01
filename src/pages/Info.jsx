@@ -99,7 +99,7 @@ export default function Detail() {
     setTimeout(async () => {
       const token = recaptchaToken;
       if (token) {
-        const payload = { id: id, recaptcha: token };
+        const payload = { id: id, recaptcha: token, console: console };
         axios
           .post("https://api.xtr.my.id/api/chk/", payload)
           .then((resp) => {
@@ -108,6 +108,7 @@ export default function Detail() {
           .catch((error) => {
             const msg = "Selesaikan Captcha untuk melihat link.";
             handleErr(msg);
+            setState("idle");
           });
       } else {
         const msg = "Selesaikan Captcha untuk melihat link.";
