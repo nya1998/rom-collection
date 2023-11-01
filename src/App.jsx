@@ -9,6 +9,7 @@ export default function App() {
   const Home = lazy(() => import("./pages/Home.jsx"));
   const Search = lazy(() => import("./pages/Search.jsx"));
   const Detail = lazy(() => import("./pages/Detail.jsx"));
+  const Info = lazy(() => import("./pages/Info.jsx"));
   const About = lazy(() => import("./pages/About.jsx"));
   const Nx = lazy(() => import("./pages/Consoles.jsx"));
   const Err404 = lazy(() => import("./component/Err404.jsx"));
@@ -23,6 +24,7 @@ export default function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/info/:console/:id" element={<Info />} />
             <Route path="/search/:query" element={<Search />} />
             <Route path="/about" element={<About />} />
             <Route path="/console/:consoles" element={<Nx />} />
