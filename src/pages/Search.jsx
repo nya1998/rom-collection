@@ -18,7 +18,7 @@ export default function Search() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api.xtr.my.id/api/search/${query}`
+          `http://localhost:8080/api/search/${query}`
         );
         setGames(response.data);
       } catch (error) {
@@ -108,7 +108,7 @@ export default function Search() {
             >
               <div className="flex justify-center items-center">
                 <Link
-                  to={`/detail/${game.id}`} //object-cover w-full rounded-t-lg h-36 md:h-auto md:w-32 md:rounded-none md:rounded-l-lg
+                  to={game.console === 'Nintendo Switch' ? `/detail/${game.id}` : `/info/vita/${game.id}`}
                 >
                   <img
                     src={`https://assets.xtr.my.id/img/${game.id}.webp`}
@@ -123,7 +123,7 @@ export default function Search() {
                 <div className="text-gray-900 font-bold text-xl mb-2 dark:text-white">
                   <Link
                     className="mr-4 hover:underline md:mr-6 "
-                    to={`/detail/${game.id}`}
+                    to={game.console === 'Nintendo Switch' ? `/detail/${game.id}` : `/info/vita/${game.id}`}
                   >
                     {game.title}
                   </Link>
